@@ -189,13 +189,13 @@ def contact(request):
         messages.success(request,"your email is sent")
      return render(request,'contact.html',{'form':form})  
 
-""" def graph(request):
+def graph(request):
     # Hardcoded data for weeks and scores
     weeks = [1, 2, 3, 4,5]
     scores = [85, 90, 80, 95,80]
     
     # Pass the data to the template
-    return render(request, 'graph.html', {'weeks': weeks, 'scores': scores}) """
+    return render(request, 'graph.html', {'weeks': weeks, 'scores': scores})
 
 
 
@@ -205,7 +205,7 @@ def contact(request):
 
 
 
-def graph(request):
+""" def graph(request):
     if request.method == 'POST':
         # Correctly reference the keys in the POST request
         word = request.POST.get('word')
@@ -230,4 +230,8 @@ def graph(request):
 
         return JsonResponse({'status': 'success', 'iscorrect': iscorrect})
 
-    return JsonResponse({'status': 'error', 'message': 'Invalid request method.'})
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method.'})"""
+def dinesh(request):
+    return render(request,'dinesh.html') 
+def speechtotext(request):
+    return render(request,'speechtotext.html')

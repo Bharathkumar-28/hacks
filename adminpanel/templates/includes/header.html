@@ -1,130 +1,101 @@
-
- 
-<header class="p-3 bg-success text-white  sticky-top">
+<header class="p-3 bg-success text-white sticky-top">
     <div class="row">
         <div class="col">
-          <button class="menu-toggle" onclick="toggleSidebar()">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-      
+            <button class="menu-toggle" onclick="toggleSidebar()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
-       
-        
-        
+
         <div class="col">
             <div class="d-flex justify-content-center gap-3">
-              <button class="mode-toggle1" onclick="toggleMode()">
-                🌞 
-            </button>
+                <button class="mode-toggle1" onclick="toggleMode()">🌞</button>
                 <a class="text-light text-decoration-none" href="/">Home</a>
-                <a class="text-light text-decoration-none " href="/about">about</a>
-                <a class="text-light text-decoration-none " href="/contact">Contact</a>
+                <a class="text-light text-decoration-none" href="/about">About</a>
+                <a class="text-light text-decoration-none" href="/contact">Contact</a>
                 {% if user.is_authenticated %}
-                <a class="text-light text-decoration-none " href="/dashboard">Dashboard</a>
-                <a class="text-light text-decoration-none " href="/logout">Logout</a>
+                <a class="text-light text-decoration-none" href="/dashboard">Dashboard</a>
+                <a class="text-light text-decoration-none" href="/logout">Logout</a>
                 {% else %}
-                <a class="text-light text-decoration-none " href="/register">Register</a>
-                <a class="text-light text-decoration-none " href="/login">Login</a>
+                <a class="text-light text-decoration-none" href="/register">Register</a>
+                <a class="text-light text-decoration-none" href="/login">Login</a>
                 {% endif %}
-                
             </div>
         </div>
     </div>
+
     <div class="sidebar" id="sidebar">
-      <button class="close-icon" onclick="toggleSidebar()">×</button>
-      <a href="/" ></a>
-      <a href={% url "profile" %} >Profile</a>
-      <a href= "/contact" >Contact</a>
-      <a href="#" onclick="menuItemClick('Services')">Services</a>
-      <a href="/logout">Logout</a>
-  </div>
-  <div class="cursor-dotda" id="cursor-dot"></div>
+        <button class="close-icon" onclick="toggleSidebar()">×</button>
+        <a href="/">Home</a>
+        <a href="{% url 'profile' %}">Profile</a>
+        <a href="/contact">Contact</a>
+        <a href="#" onclick="menuItemClick('Services')">Services</a>
+        <a href="/logout">Logout</a>
+    </div>
+
+    <div class="cursor-dotda" id="cursor-dot"></div>
     <div class="cursor-outlineda" id="cursor-outline"></div>
+
     <script>
-        // Get references to the custom cursor elements
+        // Custom Cursor Animation
         const cursorDot = document.getElementById('cursor-dot');
         const cursorOutline = document.getElementById('cursor-outline');
-     
-    
-        // Function to update cursor position based on mouse movements
-        window.addEventListener('mousemove', function(e) {
+
+        window.addEventListener('mousemove', function (e) {
             const posX = e.clientX;
             const posY = e.clientY;
-    
-            // Update position for the cursor dot
+
             cursorDot.style.left = `${posX}px`;
             cursorDot.style.top = `${posY}px`;
-    
-            // Update position for the cursor outline
             cursorOutline.style.left = `${posX}px`;
             cursorOutline.style.top = `${posY}px`;
-    
-            // Animate the cursor outline to smoothly follow the mouse
-            cursorOutline.animate(
-                [
-                    { left: `${posX}px`, top: `${posY}px` }
-                ],
-                {
-                  duration:500,  // Animation duration in milliseconds
-                    fill: "forwards" // Ensures the animation stays at the final state
-                }
-            );
+
+            cursorOutline.animate([{ left: `${posX}px`, top: `${posY}px` }], {
+                duration: 500,
+                fill: "forwards"
+            });
         });
-    </script>  
 
-  <script>
-    // Toggle the sidebar menu open and close
-    function toggleSidebar() {
-        const sidebar = document.getElementById('sidebar');
-        const menuToggle = document.querySelector('.menu-toggle');
-        const content = document.querySelector('.content');
+        // Toggle Sidebar Menu
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const menuToggle = document.querySelector('.menu-toggle');
+            const content = document.querySelector('.content');
 
-        // Toggle the 'open' class to show or hide the sidebar
-        sidebar.classList.toggle('open');
-        content.classList.toggle('active');
-        menuToggle.classList.toggle('active');
-    }
+            sidebar.classList.toggle('open');
+            content.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        }
 
-    // Action for each menu item click
-    function menuItemClick(menuItem) {
-        alert("You clicked: " + menuItem);
-    }
-</script>
-<script>
-  // Function to toggle light/dark mode
-  function toggleMode() {
-      const body = document.body;
-      const modeToggle = document.querySelector('.mode-toggle');
+        // Handle Sidebar Menu Clicks
+        function menuItemClick(menuItem) {
+            alert("You clicked: " + menuItem);
+        }
 
-      // Toggle dark mode class on body
-      body.classList.toggle('dark-mode');
+        // Toggle Light/Dark Mode
+        function toggleMode() {
+            const body = document.body;
+            const modeToggle = document.querySelector('.mode-toggle1'); // Fixed class name
 
-      // Change the icon to reflect the current mode
-      if (body.classList.contains('dark-mode')) {
-          modeToggle.textContent = '🌙'; // Change to moon icon for dark mode
-      } else {
-          modeToggle.textContent = '🌞'; // Change to sun icon for light mode
-      }
-  }
+            body.classList.toggle('dark-mode');
 
-  // Optional: Persist the user's mode preference in local storage
-  window.onload = function () {
-      if (localStorage.getItem('dark-mode') === 'true') {
-          document.body.classList.add('dark-mode');
-          document.querySelector('.mode-toggle').textContent = '🌙';
-      }
-  };
+            // Update button text based on mode
+            if (body.classList.contains('dark-mode')) {
+                modeToggle.textContent = '🌙'; // Dark mode active
+                localStorage.setItem('dark-mode', 'true');
+            } else {
+                modeToggle.textContent = '🌞'; // Light mode active
+                localStorage.setItem('dark-mode', 'false');
+            }
+        }
 
-  // Save the user's mode preference
-  window.onbeforeunload = function () {
-      if (document.body.classList.contains('dark-mode')) {
-          localStorage.setItem('dark-mode', 'true');
-      } else {
-          localStorage.setItem('dark-mode', 'false');
-      }
-  };
-</script>
-
+        // Load stored mode preference on page load
+        window.onload = function () {
+            if (localStorage.getItem('dark-mode') === 'true') {
+                document.body.classList.add('dark-mode');
+                document.querySelector('.mode-toggle1').textContent = '🌙';
+            }
+        };
+    </script>
 </header>
